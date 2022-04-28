@@ -1,0 +1,277 @@
+// newebtan
+/* -------------------------------------------------------------- [ Luggage ] */
+new luggageItem[MAX_VEHICLES][5];
+new luggageEnterName[][] =
+{
+	{"Iaragebi"},  // 0
+	{"Tanxa"},    // 1
+	{"Narkotiki"}// 2
+};
+new luggageWeaponName[][] =
+{
+	{"Base Ball Bat"}, // 0
+	{"Desert Eagle"}, // 1
+	{"M4"}           // 2
+};
+new luggageStatus[][] =
+{
+	{"Ar Aris"}, // 0
+	{"Aris"}    // 1
+};
+#define max_luggage_len 300
+#define min_luggage_len 100
+
+
+
+
+
+
+// onplayerkeystatechange
+	if(newkeys == KEY_WALK)
+	{
+	    new nearveh = GetNearVehicle(playerid, 2);
+	    if(nearveh != -1)
+	    {
+			ShowLuggageDialog(playerid);
+	    }
+	}
+
+
+
+
+
+// ondialogidresponse
+	if(dialogid == 7000)
+	{
+	    if(response)
+	    {
+	        new near = GetNearVehicle(playerid, 2);
+	        switch(listitem)
+	        {
+	            case 0:
+	            {
+	                new akvs[min_luggage_len];
+	                
+	                if(luggageItem[near][0] == 1) format(akvs, min_luggage_len, "%s",luggageStatus[1]);
+	                else format(akvs, min_luggage_len, "%s",luggageStatus[0]);
+	                
+	                new str[max_luggage_len];
+					format(str, max_luggage_len, "{32cd32}[1]{ffffff} %s\t%s\n{32cd32}[2]{ffffff} %s\t%d\n{32cd32}[3]{ffffff} %s\t%d",luggageWeaponName[0],akvs,luggageWeaponName[1],luggageItem[near][1],luggageWeaponName[2],luggageItem[near][2]);
+					ShowPlayerDialog(playerid, 7001, DIALOG_STYLE_LIST, "{32cd32}Luggage / Weapon{ffffff} | Choose", str, "Enter", "Exit");
+	            }
+	            case 1:
+	            {
+					ShowPlayerDialog(playerid, 7005, DIALOG_STYLE_LIST, "{32cd32}Luggage / Money{ffffff} | Choose", "{32cd32}[1]{ffffff} Gamotana\n{32cd32}[2]{ffffff} Shetana", "Enter", "Exit");
+	            }
+	            case 2:
+	            {
+					ShowPlayerDialog(playerid, 7008, DIALOG_STYLE_LIST, "{32cd32}Luggage / Narko{ffffff} | Choose", "{32cd32}[1]{ffffff} Gamotana\n{32cd32}[2]{ffffff} Shetana", "Enter", "Exit");
+	            }
+	        }
+	    }
+	}
+	if(dialogid == 7001)
+	{
+	    if(response)
+	    {
+	        new near = GetNearVehicle(playerid, 2);
+	        if(listitem == 0)
+			{
+				if(luggageItem[near][0] == 0)
+				{
+				    if(GetPlayerWeapon(playerid) != 5) return SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Tkven Ar Gakvt Bita (Sachiroa Gechirot Xelshi)");
+				    luggageItem[near][0] = 1;
+				    ResetPlayerWeapons(playerid);
+   					new akvs[min_luggage_len];
+	                if(luggageItem[near][0] == 1) format(akvs, min_luggage_len, "%s",luggageStatus[1]);
+	                else format(akvs, min_luggage_len, "%s",luggageStatus[0]);
+	                new str[max_luggage_len];
+					format(str, max_luggage_len, "{32cd32}[1]{ffffff} %s\t%s\n{32cd32}[2]{ffffff} %s\t%d\n{32cd32}[3]{ffffff} %s\t%d",luggageWeaponName[0],akvs,luggageWeaponName[1],luggageItem[near][0],luggageWeaponName[2],luggageItem[near][1]);
+					ShowPlayerDialog(playerid, 7001, DIALOG_STYLE_LIST, "{32cd32}Luggage / Weapon{ffffff} | Choose", str, "Enter", "Exit");
+				}
+				else if(luggageItem[near][0] == 1)
+				{
+				    luggageItem[near][0] = 0;
+				    GivePlayerServerWeapon(playerid, 5, 1);
+   					new akvs[min_luggage_len];
+	                if(luggageItem[near][0] == 1) format(akvs, min_luggage_len, "%s",luggageStatus[1]);
+	                else format(akvs, min_luggage_len, "%s",luggageStatus[0]);
+	                new str[max_luggage_len];
+					format(str, max_luggage_len, "{32cd32}[1]{ffffff} %s\t%s\n{32cd32}[2]{ffffff} %s\t%d\n{32cd32}[3]{ffffff} %s\t%d",luggageWeaponName[0],akvs,luggageWeaponName[1],luggageItem[near][0],luggageWeaponName[2],luggageItem[near][1]);
+					ShowPlayerDialog(playerid, 7001, DIALOG_STYLE_LIST, "{32cd32}Luggage / Weapon{ffffff} | Choose", str, "Enter", "Exit");
+				}
+			}
+			else if(listitem == 1)
+			{
+				ShowPlayerDialog(playerid, 7002, DIALOG_STYLE_LIST, "{32cd32}Luggage / Derest Eagle{ffffff} | Choose", "{32cd32}[1]{ffffff} Gamotana\n{32cd32}[2]{ffffff} Shetana", "Enter", "Exit");
+			}
+			else
+			{
+                ShowPlayerDialog(playerid, 7060, DIALOG_STYLE_LIST, "{32cd32}Luggage / M4{ffffff} | Choose", "{32cd32}[1]{ffffff} Gamotana\n{32cd32}[2]{ffffff} Shetana", "Enter", "Exit");
+			}
+	    }
+	}
+	if(dialogid == 7002)
+	{
+	    if(response)
+	    {
+			if(listitem == 0) ShowPlayerDialog(playerid, 7003, DIALOG_STYLE_INPUT, "{32cd32}Luggage / Derest Eagle{ffffff} | Choose", "{ffffff}- Miutitet Tkviebis Odenoba", "Enter", "Exit");
+			else ShowPlayerDialog(playerid, 7004, DIALOG_STYLE_INPUT, "{32cd32}Luggage / Derest Eagle{ffffff} | Choose", "{ffffff}- Miutitet Tkviebis Odenoba", "Enter", "Exit");
+	    }
+	    else ShowLuggageDialog(playerid);
+	}
+ 	if(dialogid == 7003)
+	{
+		if(response)
+		{
+		    new near = GetNearVehicle(playerid, 2);
+		    if(luggageItem[near][1] < strval(inputtext)) return ShowLuggageDialog(playerid), SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Sabargulshi Ar Aris Mititebuli Tkviebis Odenoba");
+			luggageItem[near][1] -= strval(inputtext);
+			GivePlayerServerWeapon(playerid, 24, strval(inputtext));
+			new str[min_luggage_len];
+			format(str, min_luggage_len, "{32cd32}[Luggage]{ffffff} Sabargulidan Gamotanili Deagle Tkviebis Odenoba: {32cd32}%d$",strval(inputtext));
+			SendClientMessage(playerid, -1, str);
+		}
+		else ShowLuggageDialog(playerid);
+	}
+	if(dialogid == 7004)
+	{
+		if(response)
+		{
+		    new near = GetNearVehicle(playerid, 2);
+		    if(GetPlayerWeapon(playerid) != 24) return SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Tkven Ar Gakvt Desert Eagle (Sachiroa Gechirot Xelshi)");
+		    if(GetPlayerAmmo(playerid) < strval(inputtext)) return SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Tkven Ar Gakvt Amdeni Tkvia");
+			luggageItem[near][1] += strval(inputtext);
+			SetPlayerAmmo(playerid, 24, GetPlayerAmmo(playerid) - strval(inputtext));
+			new str[min_luggage_len];
+			format(str, min_luggage_len, "{32cd32}[Luggage]{ffffff} Sabargulshi Shetanili Deagle Tkviebis Odenoba: {32cd32}%d$",strval(inputtext));
+			SendClientMessage(playerid, -1, str);
+		}
+		else ShowLuggageDialog(playerid);
+	}
+	if(dialogid == 7005)
+	{
+	    if(response)
+	    {
+			if(listitem == 0) ShowPlayerDialog(playerid, 7006, DIALOG_STYLE_INPUT, "{32cd32}Luggage / Money{ffffff} | Choose", "{ffffff}- Miutitet Tanxis Odenoba", "Enter", "Exit");
+			else ShowPlayerDialog(playerid, 7007, DIALOG_STYLE_INPUT, "{32cd32}Luggage / Money{ffffff} | Choose", "{ffffff}- Miutitet Tanxis Odenoba", "Enter", "Exit");
+	    }
+	}
+	if(dialogid == 7006)
+	{
+		if(response)
+		{
+		    new near = GetNearVehicle(playerid, 2);
+		    if(luggageItem[near][3] < strval(inputtext)) return ShowLuggageDialog(playerid), SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Sabargulshi Ar Aris Mititebuli Tanxa");
+			luggageItem[near][3] -= strval(inputtext);
+			PlayerInfo[playerid][pCash] += strval(inputtext);
+			new str[min_luggage_len];
+			format(str, min_luggage_len, "{32cd32}[Luggage]{ffffff} Sabargulidan Gamotanili Tanxis Odenoba: {32cd32}%d$",strval(inputtext));
+			SendClientMessage(playerid, -1, str);
+		}
+		else ShowLuggageDialog(playerid);
+	}
+	if(dialogid == 7007)
+	{
+		if(response)
+		{
+		    new near = GetNearVehicle(playerid, 2);
+		    if(strval(inputtext) > PlayerInfo[playerid][pCash]) return ShowLuggageDialog(playerid), SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Tkven Ar Gakvt Mititebuli Tanxa");
+			luggageItem[near][3] += strval(inputtext);
+			PlayerInfo[playerid][pCash] -= strval(inputtext);
+			new str[min_luggage_len];
+			format(str, min_luggage_len, "{32cd32}[Luggage]{ffffff} Sabargulshi Shetanili Tanxis Odenoba: {32cd32}%d$",strval(inputtext));
+			SendClientMessage(playerid, -1, str);
+		}
+		else ShowLuggageDialog(playerid);
+	}
+	if(dialogid == 7008)
+	{
+	    if(response)
+	    {
+			if(listitem == 0) ShowPlayerDialog(playerid, 7009, DIALOG_STYLE_INPUT, "{32cd32}Luggage / Narko{ffffff} | Choose", "{ffffff}- Miutitet Narkotikis Odenoba", "Enter", "Exit");
+			else ShowPlayerDialog(playerid, 7010, DIALOG_STYLE_INPUT, "{32cd32}Luggage / Narko{ffffff} | Choose", "{ffffff}- Miutitet Narkotikis Odenoba", "Enter", "Exit");
+	    }
+	    else ShowLuggageDialog(playerid);
+	}
+	if(dialogid == 7009)
+	{
+		if(response)
+		{
+		    new near = GetNearVehicle(playerid, 2);
+		    if(luggageItem[near][4] < strval(inputtext)) return ShowLuggageDialog(playerid), SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Sabargulshi Ar Aris Mititebuli Narkotiki");
+			luggageItem[near][4] -= strval(inputtext);
+			PlayerInfo[playerid][pDrug] += strval(inputtext);
+			new str[min_luggage_len];
+			format(str, min_luggage_len, "{32cd32}[Luggage]{ffffff} Sabargulidan Gamotanili Narkotikis Odenoba: {32cd32}%d$",strval(inputtext));
+			SendClientMessage(playerid, -1, str);
+		}
+		else ShowLuggageDialog(playerid);
+	}
+	if(dialogid == 7010)
+	{
+		if(response)
+		{
+		    new near = GetNearVehicle(playerid, 2);
+		    if(strval(inputtext) > PlayerInfo[playerid][pCash]) return ShowLuggageDialog(playerid), SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Tkven Ar Gakvt Mititebuli Narkotiki");
+			luggageItem[near][4] += strval(inputtext);
+			PlayerInfo[playerid][pDrug] -= strval(inputtext);
+			new str[min_luggage_len];
+			format(str, min_luggage_len, "{32cd32}[Luggage]{ffffff} Sabargulshi Shetanili Narkotikis Odenoba: {32cd32}%d$",strval(inputtext));
+			SendClientMessage(playerid, -1, str);
+		}
+		else ShowLuggageDialog(playerid);
+	}
+	if(dialogid == 7060)
+	{
+	    if(response)
+	    {
+			if(listitem == 0) ShowPlayerDialog(playerid, 7061, DIALOG_STYLE_INPUT, "{32cd32}Luggage / M4{ffffff} | Choose", "{ffffff}- Miutitet Tkviebis Odenoba", "Enter", "Exit");
+			else ShowPlayerDialog(playerid, 7062, DIALOG_STYLE_INPUT, "{32cd32}Luggage / M4{ffffff} | Choose", "{ffffff}- Miutitet Tkviebis Odenoba", "Enter", "Exit");
+	    }
+	    else ShowLuggageDialog(playerid);
+	}
+	if(dialogid == 7061)
+	{
+		if(response)
+		{
+		    new near = GetNearVehicle(playerid, 2);
+		    if(luggageItem[near][2] < strval(inputtext)) return ShowLuggageDialog(playerid), SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Sabargulshi Ar Aris Mititebuli Tkviebis Odenoba");
+			luggageItem[near][2] -= strval(inputtext);
+			GivePlayerServerWeapon(playerid, 31, strval(inputtext));
+			new str[min_luggage_len];
+			format(str, min_luggage_len, "{32cd32}[Luggage]{ffffff} Sabargulidan Gamotanili M4 Tkviebis Odenoba: {32cd32}%d$",strval(inputtext));
+			SendClientMessage(playerid, -1, str);
+		}
+		else ShowLuggageDialog(playerid);
+	}
+	if(dialogid == 7062)
+	{
+		if(response)
+		{
+		    new near = GetNearVehicle(playerid, 2);
+		    if(GetPlayerWeapon(playerid) != 31) return SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Tkven Ar Gakvt M4 (Sachiroa Gechirot Xelshi)");
+		    if(GetPlayerAmmo(playerid) < strval(inputtext)) return SendClientMessage(playerid, -1, "{32cd32}[Luggage]{ffffff} Tkven Ar Gakvt Amdeni Tkvia");
+			luggageItem[near][2] += strval(inputtext);
+			SetPlayerAmmo(playerid, 31, GetPlayerAmmo(playerid) - strval(inputtext));
+			new str[min_luggage_len];
+			format(str, min_luggage_len, "{32cd32}[Luggage]{ffffff} Sabargulshi Shetanili M4 Tkviebis Odenoba: {32cd32}%d$",strval(inputtext));
+			SendClientMessage(playerid, -1, str);
+		}
+		else ShowLuggageDialog(playerid);
+	}
+	
+
+
+
+
+
+// stock
+stock ShowLuggageDialog(playerid)
+{
+    new nearveh = GetNearVehicle(playerid, 2);
+	new str[max_luggage_len];
+	format(str, max_luggage_len, "{32cd32}[1]{ffffff} %s\n{32cd32}[2]{ffffff} %s\t%d\n{32cd32}[3]{ffffff} %s\t%d",luggageEnterName[0],luggageEnterName[1],luggageItem[nearveh][3],luggageEnterName[2],luggageItem[nearveh][4]);
+	ShowPlayerDialog(playerid, 7000, DIALOG_STYLE_LIST, "{32cd32}Luggage{ffffff} | Choose Function", str, "Enter", "Exit");
+	return 1;
+}

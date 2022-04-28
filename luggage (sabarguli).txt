@@ -275,3 +275,16 @@ stock ShowLuggageDialog(playerid)
 	ShowPlayerDialog(playerid, 7000, DIALOG_STYLE_LIST, "{32cd32}Luggage{ffffff} | Choose Function", str, "Enter", "Exit");
 	return 1;
 }
+stock GetNearVehicle(playerid, Float:range)
+{
+	for(new i = 0 ; i < MAX_VEHICLES; i ++)
+	{
+		new Float:x, Float:y, Float:z;
+		GetVehiclePos(i, x, y, z);
+		if(IsPlayerInRangeOfPoint(playerid, range, x, y, z))
+		{
+			return i;
+		}
+	}
+	return -1;
+}
